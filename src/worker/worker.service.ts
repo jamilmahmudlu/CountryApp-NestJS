@@ -63,15 +63,17 @@ export class WorkerService {
     await Promise.all(promises);
   }
 
-  async syncFlags(){
+  async syncFlags() {
     let countries = await this.countryService.list();
-    let flags = await this.flagApi.get(`/countries/flag/images`).then((response) => response.data).catch(() => false);
+    let flags = await this.flagApi
+      .get(`/countries/flag/images`)
+      .then((response) => response.data)
+      .catch(() => false);
 
     let promises: Promise<any>[] = [];
 
     for (const country of countries) {
-
-        let flag = flags.find((item) => item.iso2 === country.code)
+      let flag = flags.find((item) => item.iso2 === country.code);
       if (flag) {
         promises.push(
           this.countryService.update(country.id, { flagImage: flag.flag }),

@@ -7,16 +7,14 @@ import config from 'src/config';
 export class CountryApi {
   private baseURL: string;
 
-  constructor(
-    private readonly httpService: HttpService,
-  ) {
+  constructor(private readonly httpService: HttpService) {
     this.baseURL = config.countryApiURL;
   }
 
   async get(endpoint: string, params = {}) {
     try {
       const response = await lastValueFrom(
-        this.httpService.get(`${this.baseURL}${endpoint}`, { params })
+        this.httpService.get(`${this.baseURL}${endpoint}`, { params }),
       );
       return response.data;
     } catch (error) {
@@ -28,7 +26,10 @@ export class CountryApi {
     if (error.response) {
       throw new HttpException(error.response.data, error.response.status);
     } else {
-      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

@@ -17,9 +17,9 @@ import { HttpModule } from '@nestjs/axios';
       logging: true,
       extra: {
         foreign_keys: true, // Ensure foreign key constraints are enforced
-      }
+      },
     }),
-    HttpModule.register({global: true}),
+    HttpModule.register({ global: true }),
     CountryModule,
     WorkerModule,
   ],
