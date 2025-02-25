@@ -1,11 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Country } from './Country.entity';
 
 @Entity('populations')
@@ -25,7 +18,7 @@ export class Population extends BaseEntity {
   @Column()
   value: number;
 
-  @ManyToOne(() => Country, (country) => country.population, {
+  @ManyToOne(() => Country, country => country.population, {
     onDelete: 'CASCADE',
   })
   country: Country;

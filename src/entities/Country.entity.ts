@@ -24,7 +24,7 @@ export class Country extends BaseEntity {
   @Column({ nullable: true })
   flagImage: string;
 
-  @ManyToMany(() => Country, (country) => country.borders)
+  @ManyToMany(() => Country, country => country.borders)
   @JoinTable({
     name: 'country_borders',
     joinColumn: { name: 'country_id', referencedColumnName: 'id' },
@@ -35,6 +35,6 @@ export class Country extends BaseEntity {
   })
   borders: Country[];
 
-  @OneToMany(() => Population, (population) => population.country)
+  @OneToMany(() => Population, population => population.country)
   population: Population[];
 }

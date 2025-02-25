@@ -26,10 +26,7 @@ export class CountryApi {
     if (error.response) {
       throw new HttpException(error.response.data, error.response.status);
     } else {
-      throw new HttpException(
-        'Internal Server Error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

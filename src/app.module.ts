@@ -6,6 +6,7 @@ import { join } from 'path';
 import { WorkerModule } from './worker/worker.module';
 import { CountryModule } from './country/country.module';
 import { HttpModule } from '@nestjs/axios';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { HttpModule } from '@nestjs/axios';
     }),
     HttpModule.register({ global: true }),
     CountryModule,
+    UserModule,
     WorkerModule,
   ],
   controllers: [AppController],

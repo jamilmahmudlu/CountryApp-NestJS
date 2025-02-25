@@ -34,8 +34,21 @@ export class CountryService {
     return this.countryRepository.update(id, params);
   }
 
+  async country(code: string) {
+    const country = await this.countryRepository.findOne({
+      where: { code },
+      select: { id: true, name: true, code: true },
+    });
+
+    if (!country) {
+      throw new NotFoundException('Country not found');
+    }
+
+    return country;
+  }
+
   async countryDetail(code: string) {
-    let country = await this.countryRepository.findOne({
+    const country = await this.countryRepository.findOne({
       where: { code },
 
       select: {
@@ -62,15 +75,11 @@ export class CountryService {
     }
 
     if (!country.borders.length) {
-      let detailedData = await this.countryApi
-        .get(`/CountryInfo/${code}`)
-        .catch(() => false);
+      const detailedData = await this.countryApi.get(`/CountryInfo/${code}`).catch(() => false);
       if (detailedData) {
         const borderCountries = await this.countryRepository.find({
           where: {
-            code: In(
-              detailedData.borders.map((country) => country.countryCode),
-            ),
+            code: In(detailedData.borders.map(country => country.countryCode)),
           },
         });
         country.borders = borderCountries;
@@ -82,7 +91,7 @@ export class CountryService {
   }
 
   async countryPopulation(code: string) {
-    let population = await this.populationRepository.find({
+    const population = await this.populationRepository.find({
       where: { countryCode: code },
     });
 
@@ -95,5 +104,9 @@ export class CountryService {
 
   async createPopulation(list: CreatePopulationDto[]) {
     return this.populationRepository.save(list);
+  }
+
+  async countryHolidays(year: number, code: string) {
+    return this.countryApi.get(`/PublicHolidays/${year}/${code}`).catch(() => false);
   }
 }
